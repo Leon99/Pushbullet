@@ -24,6 +24,8 @@ namespace Pushbullet.UI.Console.Shared
 		public static void WaitInDebug()
 		{
 #if DEBUG
+			System.Console.WriteLine();
+			System.Console.Write("Press ENTER to continue.");
 			System.Console.ReadLine();
 #endif
 		}

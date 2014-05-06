@@ -9,6 +9,8 @@ namespace Pushbullet.UI.Console
 {
 	internal class Program
 	{
+		internal const string ApplicationName = "Pushbullet Console";
+
 		private static void Main(string[] args)
 		{
 			CLArguments parsedArgs = ParseArgs(args);
@@ -25,7 +27,7 @@ namespace Pushbullet.UI.Console
 						parsedArgs.ApiKey = SecureStorage.LoadToken();
 						if (parsedArgs.ApiKey == null)
 						{
-							ConsoleHelpers.WriteErrorAndExit("No stored API key found.");
+							ConsoleHelpers.WriteErrorAndExit("No saved API key found.");
 						}
 					}
 					DoPush(parsedArgs);
@@ -33,7 +35,7 @@ namespace Pushbullet.UI.Console
 				else
 				{
 					SecureStorage.SaveToken(parsedArgs.ApiKey);
-					ConsoleHelpers.Write("API key has been successfully stored and will be reused next time the application starts.");
+					ConsoleHelpers.Write("API key has been successfully saved. You don't need to specify it in future.");
 				}
 			}
 			ConsoleHelpers.WaitInDebug();
