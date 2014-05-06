@@ -26,11 +26,11 @@ namespace Pushbullet.UI.Console
 
 
 		[Option('b', "body", HelpText = 
-"Body of the push. For file pushes, should be a path to the file. For list, individual items should be separated by a semicolon.")]
+"Body of the push. For a file push, should be a path to the file. For a list push, individual items should be separated by a semicolon.")]
 		public string Body { get; set; }
 
 		[Option("response", HelpText = 
-"Display the response from server (JSON).", DefaultValue = false)]
+"Switch to display a response from the server (JSON format).", DefaultValue = false)]
 		public bool ShowResponse { get; set; }
 
 		[HelpOption('h', "help")]
