@@ -1,61 +1,30 @@
 ﻿using System;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Pushbullet.UI.Console.Properties;
 
 namespace Pushbullet.UI.Console.Shared
 {
 	class SecureStorage
 	{
-		private static readonly string DirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Program.ApplicationName);
-		private const string FileName = "token";
-
 		public static void SaveToken(string token)
 		{
 			byte[] plaintextBytes = Encoding.ASCII.GetBytes(token);
 			byte[] encodedBytes = ProtectedData.Protect(plaintextBytes, null, DataProtectionScope.CurrentUser);
-			using (var fileStream = CreateFile())
-			{
-				fileStream.Write(encodedBytes, 0, encodedBytes.Length);
-			}
+			Settings.Default.ApiKey = Convert.ToBase64String(encodedBytes);
+			Settings.Default.Save();
 		}
 
 		public static string LoadToken()
 		{
-			byte[] encodedBytes;
-			using (var fileStream = OpenFile())
-			{
-				if (fileStream == null)
-				{
-					return null;
-				}
-				encodedBytes = new byte[fileStream.Length];
-				fileStream.Read(encodedBytes, 0, encodedBytes.Length);
-			}
-			byte[] decodedBytes = ProtectedData.Unprotect(encodedBytes, null, DataProtectionScope.CurrentUser);
-
-			return Encoding.ASCII.GetString(decodedBytes);
-		}
-
-		private static FileStream CreateFile()
-		{
-			var appDir = new DirectoryInfo(DirectoryPath);
-			if (!appDir.Exists)
-			{
-				appDir.Create();
-			}
-
-			return File.Create(Path.Combine(DirectoryPath, FileName));
-		}
-
-		private static FileStream OpenFile()
-		{
-			var file = new FileInfo(Path.Combine(DirectoryPath, FileName));
-			if (!file.Exists)
+			if (string.IsNullOrEmpty(Settings.Default.ApiKey))
 			{
 				return null;
 			}
-			return file.OpenRead();
+			byte[] encodedBytes = Convert.FromBase64String(Settings.Default.ApiKey);
+			byte[] decodedBytes = ProtectedData.Unprotect(encodedBytes, null, DataProtectionScope.CurrentUser);
+
+			return Encoding.ASCII.GetString(decodedBytes);
 		}
 	}
 }

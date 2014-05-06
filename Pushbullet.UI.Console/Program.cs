@@ -35,7 +35,7 @@ namespace Pushbullet.UI.Console
 				else
 				{
 					SecureStorage.SaveToken(parsedArgs.ApiKey);
-					ConsoleHelpers.Write("API key has been successfully saved. You don't need to specify it in future.");
+					ConsoleHelpers.Write("API key has been successfully saved. You don't need to specify it any more.");
 				}
 			}
 			ConsoleHelpers.WaitInDebug();
