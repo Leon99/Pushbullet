@@ -6,7 +6,7 @@ namespace Pushbullet.UI.Console
 	internal class CLArguments
 	{
 		[Option('a', "apiKey", HelpText = 
-"Pushbullet API key. When no other options specified, stored in the encrypted per-user storage.")]
+"Pushbullet API key. If no other parameters specified, will be saved in an encrypted per-user storage.")]
 		public string ApiKey { get; set; }
 
 
