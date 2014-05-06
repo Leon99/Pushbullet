@@ -16,7 +16,7 @@ namespace Pushbullet.UI.Console
 
 
 		[Option('p', "type", HelpText = 
-"Type of the push. Allowed values: note|link|address|list|file. When not specified, will be autodetected.")]
+"Type of the push. Allowed values: note, link, address, list, file. When not specified, will be autodetected.")]
 		public string Type { get; set; }
 
 
