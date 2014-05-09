@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pushbullet.UI.Console.Choco
 		{701DB20A-1D18-496D-BB2D-68A5515EF3B4} = {701DB20A-1D18-496D-BB2D-68A5515EF3B4}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{8BE377E5-D849-4606-82A6-1659D97F52AB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{94B7903F-8F52-4796-9AC8-D8EE0B1F3855}"
 	ProjectSection(SolutionItems) = preProject
 		Build.proj = Build.proj
 		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll

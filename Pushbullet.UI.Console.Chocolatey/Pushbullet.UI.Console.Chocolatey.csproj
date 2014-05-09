@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Main" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(SolutionDir)'==''">
-    <SolutionDir>$(MSBuildProjectDirectory)\..</SolutionDir>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)\.build</MSBuildCommunityTasksPath>
     <ProjectGuid>{0451BAEF-DF2E-4B98-8644-94EE9415E389}</ProjectGuid>
   </PropertyGroup>
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets')" />
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="tools\chocolateyInstall.ps1" />
@@ -19,7 +20,7 @@
   <ItemGroup>
     <Content Include="README.txt" />
   </ItemGroup>
-  <Target Name="Main" DependsOnTargets="Zip;Pack">
+  <Target Name="Build" DependsOnTargets="Zip;Pack">
   </Target>
   <Target Name="Zip">
     <ItemGroup>
@@ -34,5 +35,20 @@
   </Target>
   <Target Name="Pack">
     <Exec Command="cpack PushbulletConsole.nuspec" />
+  </Target>
+  <PropertyGroup>
+    <RebuildDependsOn>
+      Clean;
+      Build;
+    </RebuildDependsOn>
+  </PropertyGroup>
+  <Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOn)" />
+  <Target Name="Clean">
+    <ItemGroup>
+      <_FilesToDelete Remove="@(_FilesToDelete)" />
+      <_FilesToDelete Include="content\pushbulletconsole.zip" />
+    </ItemGroup>
+    <Message Text="Deleting files: @(_FilesToDelete)" />
+    <Delete Files="@(_FilesToDelete)" />
   </Target>
 </Project>
