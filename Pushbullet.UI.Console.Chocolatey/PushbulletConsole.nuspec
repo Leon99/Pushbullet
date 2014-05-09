@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>pushbulletconsole</id>
+    <title>Pushbullet Console</title>
+    <version>0.9</version>
+    <authors>Leon Volovyk</authors>
+    <owners>Leon Volovyk</owners>
+    <summary>CLI for Pushbullet.</summary>
+    <description>Command line interface for Pushbullet. Requires .NET Framework 4.5.</description>
+    <projectUrl>https://github.com/Leon99/Pushbullet</projectUrl>
+    <tags>pushbullet</tags>
+    <copyright>
+    </copyright>
+    <licenseUrl>https://github.com/Leon99/Pushbullet/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://raw.githubusercontent.com/Leon99/Pushbullet/master/logo.png</iconUrl>
+    <!--<dependencies>
+	  <dependency id="" version="" />
+	</dependencies>-->
+    <releaseNotes>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+    <file src="content\pushbulletconsole.zip" target="tools" />
+  </files>
+</package>

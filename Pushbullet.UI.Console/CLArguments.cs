@@ -30,10 +30,10 @@ namespace Pushbullet.UI.Console
 		public string Body { get; set; }
 
 		[Option("response", HelpText = 
-			"Switch to display a response from the server (JSON format).", DefaultValue = false)]
+			"Switch to display a response from the server (in JSON format).", DefaultValue = false)]
 		public bool ShowResponse { get; set; }
 
-		[HelpOption('h', "help")]
+		[HelpOption('h', "help", HelpText = "Switch to display this help screen.")]
 		public string GetUsage()
 		{
 			return HelpText.AutoBuild(this, current => HelpText.DefaultParsingErrorsHandler(this, current));

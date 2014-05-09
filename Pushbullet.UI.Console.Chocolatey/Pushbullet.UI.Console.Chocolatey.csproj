@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Main" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(SolutionDir)'==''">
+    <SolutionDir>$(MSBuildProjectDirectory)\..</SolutionDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\.build</MSBuildCommunityTasksPath>
+    <ProjectGuid>{0451BAEF-DF2E-4B98-8644-94EE9415E389}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="tools\chocolateyInstall.ps1" />
+    <None Include="PushbulletConsole.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <Target Name="Main" DependsOnTargets="Zip;Pack">
+  </Target>
+  <Target Name="Zip">
+    <ItemGroup>
+      <Stuff Include="..\Pushbullet.UI.Console\bin\Release\*.dll">
+      </Stuff>
+      <Stuff Include="..\Pushbullet.UI.Console\bin\Release\*.exe" Exclude="..\Pushbullet.UI.Console\bin\Release\*.vshost.*">
+      </Stuff>
+      <Stuff Include="..\Pushbullet.UI.Console\bin\Release\*.exe.config" Exclude="..\Pushbullet.UI.Console\bin\Release\*.vshost.*">
+      </Stuff>
+    </ItemGroup>
+    <Zip ZipFileName="content\pushbulletconsole.zip" WorkingDirectory="..\Pushbullet.UI.Console\bin\Release" Files="@(Stuff)" />
+  </Target>
+  <Target Name="Pack">
+    <Exec Command="cpack PushbulletConsole.nuspec" />
+  </Target>
+</Project>
