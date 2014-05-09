@@ -73,7 +73,7 @@ namespace Pushbullet.UI.Console
 				dynamic response = null;
 				try
 				{
-				    System.Console.Write("Pushing a {0}... ", new[] {pushType.ToString().ToLowerInvariant()});
+				    System.Console.Write("Pushing {0} {1}... ", pushType != PushbulletMessageType.Address ? "a" : "an", pushType.ToString().ToLowerInvariant());
 				    response = client.Push(targetDeviceId, pushType, parsedArgs.Title, parsedArgs.Body);
 				    System.Console.WriteLine("SUCCESS");
 				}
