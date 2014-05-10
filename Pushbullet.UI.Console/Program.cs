@@ -47,7 +47,7 @@ namespace Pushbullet.UI.Console
 			{
 				PushbulletDevices devices = client.GetDevices();
 				string targetDeviceId = (
-					devices.MyDevices.SingleOrDefault(device => PushbulletClient.GetDeviceName(device.Extras) == parsedArgs.Device)
+					devices.MyDevices.SingleOrDefault(device => String.Compare(PushbulletClient.GetDeviceName(device.Extras), parsedArgs.Device, StringComparison.OrdinalIgnoreCase) == 0)
 					??
 					new PushbulletDevice()
 					).Id;
@@ -65,7 +65,7 @@ namespace Pushbullet.UI.Console
 				}
 				else
 				{
-					if (!Enum.TryParse(parsedArgs.Type, out pushType))
+					if (!Enum.TryParse(parsedArgs.Type, true, out pushType))
 					{
 						ConsoleHelpers.WriteErrorAndExit("Incorrect push type specified.");
 					}

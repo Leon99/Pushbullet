@@ -7,6 +7,15 @@ namespace Pushbullet.UI.Console.Shared
 {
 	class SecureStorage
 	{
+		static SecureStorage()
+		{
+			if (Settings.Default.UpgradeRequired)
+			{
+				Settings.Default.Upgrade();
+				Settings.Default.UpgradeRequired = false;
+				Settings.Default.Save();
+			}
+		}
 		public static void SaveToken(string token)
 		{
 			byte[] plaintextBytes = Encoding.ASCII.GetBytes(token);

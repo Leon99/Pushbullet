@@ -8,7 +8,7 @@ How to verify the package:
 - run
 cuninst pushbulletconsole
 cinst pushbulletconsole -source "%cd%"
-
+	
 How to publish the package:
 - set working directory to the project's directory
 - run

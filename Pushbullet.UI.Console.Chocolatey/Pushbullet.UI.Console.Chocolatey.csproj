@@ -13,6 +13,7 @@
     <None Include="packages.config" />
     <None Include="tools\chocolateyInstall.ps1" />
     <None Include="PushbulletConsole.nuspec" />
+    <None Include="tools\pushbullet.bat" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="content\" />
