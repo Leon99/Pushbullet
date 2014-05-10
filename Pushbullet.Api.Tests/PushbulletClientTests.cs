@@ -68,33 +68,13 @@ namespace Pushbullet.Api.Tests
 		}
 
 		[Test]
-		public void DetectType_BodyWithFtpLink_ReturnsLinkType()
+		public void DetectType_BodyWithWww_ReturnsLinkType()
 		{
-			const string body = "ftp://fakedomain.au";
+			const string body = "www.fakedomain.au/subpage";
 
 			var detectedType = PushbulletClient.DetectType(body);
 
 			Assert.AreEqual(PushbulletMessageType.Link, detectedType);
-		}
-
-		[Test]
-		public void DetectType_BodyWithEmailLink_ReturnsLinkType()
-		{
-			const string body = "email:leon@volovik.me";
-
-			var detectedType = PushbulletClient.DetectType(body);
-
-			Assert.AreEqual(PushbulletMessageType.Link, detectedType);
-		}
-
-		[Test]
-		public void DetectType_BodyWithRelativePath_ReturnsNoteType()
-		{
-			const string body = "/fake/relative/path";
-
-			var detectedType = PushbulletClient.DetectType(body);
-
-			Assert.AreEqual(PushbulletMessageType.Note, detectedType);
 		}
 
 		[Test]
@@ -145,6 +125,16 @@ namespace Pushbullet.Api.Tests
 			var detectedType = PushbulletClient.DetectType(body);
 
 			Assert.AreEqual(PushbulletMessageType.List, detectedType);
+		}
+
+		[Test]
+		public void DetectType_RegularText_ReturnsNoteType()
+		{
+			const string body = "just a note";
+
+			var detectedType = PushbulletClient.DetectType(body);
+
+			Assert.AreEqual(PushbulletMessageType.Note, detectedType);
 		}
 
 		#endregion

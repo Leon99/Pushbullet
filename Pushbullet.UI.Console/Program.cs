@@ -35,7 +35,7 @@ namespace Pushbullet.UI.Console
 				else
 				{
 					SecureStorage.SaveToken(parsedArgs.ApiKey);
-					ConsoleHelpers.Write("API key has been successfully saved. You don't need to specify it any more.");
+				    System.Console.WriteLine("API key has been successfully saved. You don't need to specify it any more.");
 				}
 			}
 			ConsoleHelpers.WaitInDebug();
@@ -73,17 +73,18 @@ namespace Pushbullet.UI.Console
 				dynamic response = null;
 				try
 				{
-					response = client.Push(targetDeviceId, pushType, parsedArgs.Title, parsedArgs.Body);
+				    System.Console.Write("Pushing {0} {1}... ", pushType != PushbulletMessageType.Address ? "a" : "an", pushType.ToString().ToLowerInvariant());
+				    response = client.Push(targetDeviceId, pushType, parsedArgs.Title, parsedArgs.Body);
+				    System.Console.WriteLine("SUCCESS");
 				}
 				catch (Exception ex)
 				{
 					ConsoleHelpers.WriteErrorAndExit("Exception during pushing: " + ex.Message);
 				}
-				ConsoleHelpers.Write("Successfully pushed a {0}.", response.type);
-				if (parsedArgs.ShowResponse)
-				{
-					ConsoleHelpers.Write("Response:\r\n{0}", response.ToString());
-				}
+			    if (parsedArgs.ShowResponse)
+			    {
+			        System.Console.WriteLine("Response:\r\n{0}", new[] {response.ToString()});
+			    }
 			}
 		}
 

@@ -157,3 +157,7 @@ $RECYCLE.BIN/
 
 # NuGet
 /packages
+
+# Project specific
+/Pushbullet.UI.Console.Chocolatey/content/pushbulletconsole.zip
+*.nupkg

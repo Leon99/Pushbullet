@@ -33,7 +33,7 @@ namespace Pushbullet.Api
 			{
 				return PushbulletMessageType.File;
 			}
-			if (Uri.IsWellFormedUriString(body, UriKind.Absolute))
+			if (body.StartsWithAny("http://", "https://", "www."))
 			{
 				return PushbulletMessageType.Link;
 			}
