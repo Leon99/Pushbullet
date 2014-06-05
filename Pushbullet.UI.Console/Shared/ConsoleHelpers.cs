@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Pushbullet.UI.Console.Shared
 {
@@ -14,9 +15,12 @@ namespace Pushbullet.UI.Console.Shared
 		public static void WaitInDebug()
 		{
 #if DEBUG
-			System.Console.WriteLine();
-			System.Console.Write("Press ENTER to continue.");
-			System.Console.ReadLine();
+			if (Debugger.IsAttached)
+			{
+				System.Console.WriteLine();
+				System.Console.Write("Press ENTER to continue.");
+				System.Console.ReadLine();
+			}
 #endif
 		}
 	}
