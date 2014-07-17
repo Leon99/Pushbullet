@@ -1,54 +1,43 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PCLStorage;
+using Pushbullet.Api.Common;
 using Pushbullet.Api.Model;
-using Pushbullet.Api.Shared;
 
 namespace Pushbullet.Api
 {
-	public class PushbulletClient : IDisposable
+	public partial class PushbulletClient : IDisposable
 	{
 		#region Helper methods
 
-		public static string GetDeviceName(PushbulletDeviceExtras extras)
-		{
-			Contract.Requires(extras != null);
-
-			return extras.Nickname ?? extras.Model;
-		}
-
-		public static PushbulletMessageType DetectType(string body)
+		public static PushbulletPushType DetectType(string body)
 		{
 			if (string.IsNullOrEmpty(body))
 			{
-				return PushbulletMessageType.Note;
+				return PushbulletPushType.Note;
 			}
 			if (body.Contains(@":\") || body.StartsWith("file://"))
 			{
-				return PushbulletMessageType.File;
+				return PushbulletPushType.File;
 			}
 			if (body.StartsWithAny("http://", "https://", "www."))
 			{
-				return PushbulletMessageType.Link;
+				return PushbulletPushType.Link;
 			}
 			if (body.Contains(";"))
 			{
-				return PushbulletMessageType.List;
+				return PushbulletPushType.List;
 			}
-			return PushbulletMessageType.Note;
+			return PushbulletPushType.Note;
 		}
 
 		#endregion
 
-		private const string BaseApiUrl = "https://api.pushbullet.com/api/";
-		private const string PushUrl = BaseApiUrl + "pushes";
-		
 		private readonly HttpClient _client;
 
 		public PushbulletClient(string apiKey)
@@ -60,6 +49,7 @@ namespace Pushbullet.Api
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authEncoded);
 		}
 
+
 		public void Dispose()
 		{
 			if (_client != null)
@@ -68,20 +58,27 @@ namespace Pushbullet.Api
 			}
 		}
 
+
 		public PushbulletDevices GetDevices()
 		{
-			const string url = BaseApiUrl + "devices";
-
-			string devices = _client.GetStringAsync(url).Result;
-			return JsonConvert.DeserializeObject<PushbulletDevices>(devices);
+			var response = _client.GetAsync(PushbulletApiConstants.DevicesUrl).Result;
+			var responseString = HandleResponse(response);
+			return JsonConvert.DeserializeObject<PushbulletDevices>(responseString);
 		}
 
-		public dynamic Push(string deviceId, PushbulletMessageType type, string title, string body)
+
+		public dynamic Push(string deviceId, PushbulletPushType type, string title, string body)
 		{
-			HttpResponseMessage response =
-				type != PushbulletMessageType.File
+			var response = type != PushbulletPushType.File
 					? SendText(deviceId, type, title, body)
 					: SendFile(deviceId, body);
+			var responseString = HandleResponse(response);
+			return JObject.Parse(responseString);
+		}
+
+
+		private static string HandleResponse(HttpResponseMessage response)
+		{
 			string responseString;
 			if (response.IsSuccessStatusCode)
 			{
@@ -91,18 +88,18 @@ namespace Pushbullet.Api
 			{
 				throw new PushbulletException(response.StatusCode, response.ReasonPhrase);
 			}
-
-			return JObject.Parse(responseString);
+			return responseString;
 		}
 
-		private HttpResponseMessage SendText(string deviceId, PushbulletMessageType type, string title, string body)
+
+		private HttpResponseMessage SendText(string deviceId, PushbulletPushType type, string title, string body)
 		{
 			var data = new KeyValuePairList<string, string>
 			{
 				{"device_iden", deviceId},
 				{"type", type.ToString().ToLowerInvariant()},
 				{
-					type != PushbulletMessageType.Address
+					type != PushbulletPushType.Address
 						? "title"
 						: "name",
 					title
@@ -110,16 +107,16 @@ namespace Pushbullet.Api
 			};
 			switch (type)
 			{
-				case PushbulletMessageType.Note:
+				case PushbulletPushType.Note:
 					data.Add("body", body);
 					break;
-				case PushbulletMessageType.Link:
+				case PushbulletPushType.Link:
 					data.Add("url", body);
 					break;
-				case PushbulletMessageType.Address:
+				case PushbulletPushType.Address:
 					data.Add("address", body);
 					break;
-				case PushbulletMessageType.List:
+				case PushbulletPushType.List:
 					foreach (var item in body.Split(';'))
 					{
 						data.Add("items", item);
@@ -128,52 +125,23 @@ namespace Pushbullet.Api
 			}
 			using (var content = new FormUrlEncodedContent(data))
 			{
-				return _client.PostAsync(PushUrl, content).Result;
+				return _client.PostAsync(PushbulletApiConstants.PushesUrl, content).Result;
 			}
 		}
 
-		#region File push routines
 
-		private HttpResponseMessage SendFile(string deviceId, string filePath)
+		public async Task<PushbulletUser> GetCurrentUser()
 		{
-			using (var content = new MultipartFormDataContent())
-			{
-				content.Add(CreateContent("device_iden", deviceId));
-				content.Add(CreateContent("type", "file"));
-				content.Add(CreateContent(filePath));
-
-				return _client.PostAsync(PushUrl, content).Result;
-			}
+			var response = await _client.GetAsync(PushbulletApiConstants.CurrentUserUrl);
+			var responseString = HandleResponse(response);
+			return JsonConvert.DeserializeObject<PushbulletUser>(responseString);
 		}
 
-		private static StreamContent CreateContent(string filePath)
+		public PushbulletPushes GetPushes()
 		{
-			IFile file = FileSystem.Current.GetFileFromPathAsync(filePath).Result;
-			Stream stream = file.OpenAsync(FileAccess.Read).Result;
-
-			var fileContent = new StreamContent(stream);
-			HttpContentHeaders contentHeaders = fileContent.Headers;
-			contentHeaders.ContentDisposition = CreateFormDataHeader(PushbulletMessageType.File.ToString().ToLowerInvariant());
-			contentHeaders.ContentDisposition.FileName = "\"" + file.Name + "\"";
-			contentHeaders.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-			return fileContent;
+			var response = _client.GetAsync(PushbulletApiConstants.PushesUrl).Result;
+			var responseString = HandleResponse(response);
+			return JsonConvert.DeserializeObject<PushbulletPushes>(responseString, new PushJsonConverter());
 		}
-
-		private static StringContent CreateContent(string name, string content)
-		{
-			var fileContent = new StringContent(content);
-			fileContent.Headers.ContentDisposition = CreateFormDataHeader(name);
-			return fileContent;
-		}
-
-		private static ContentDispositionHeaderValue CreateFormDataHeader(string name)
-		{
-			return new ContentDispositionHeaderValue("form-data")
-			{
-				Name = "\"" + name + "\""
-			};
-		}
-
-		#endregion
 	}
 }

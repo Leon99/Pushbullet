@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Pushbullet.Api.Shared
+namespace Pushbullet.Api.Common
 {
 	public class KeyValuePairList<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
 	{

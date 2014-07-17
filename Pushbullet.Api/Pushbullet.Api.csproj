@@ -73,13 +73,20 @@
     <Compile Include="..\AssemblyInfo.Solution.cs">
       <Link>Properties\AssemblyInfo.Solution.cs</Link>
     </Compile>
-    <Compile Include="Shared\KeyValuePairList.cs" />
+    <Compile Include="Common\DateTimeConvertors.cs" />
+    <Compile Include="Model\PushbulletDeviceType.cs" />
+    <Compile Include="Model\PushbulletPushes.cs" />
+    <Compile Include="Model\PushbulletUser.cs" />
+    <Compile Include="Model\PushJsonConverter.cs" />
+    <Compile Include="PushbulletApiConstants.cs" />
+    <Compile Include="PushbulletClient.FilePush.cs" />
+    <Compile Include="Common\KeyValuePairList.cs" />
     <Compile Include="Model\PushbulletDevices.cs" />
-    <Compile Include="PushbulletMessageType.cs" />
+    <Compile Include="PushbulletPushType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PushbulletClient.cs" />
     <Compile Include="PushbulletException.cs" />
-    <Compile Include="Shared\StringExtensions.cs" />
+    <Compile Include="Common\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

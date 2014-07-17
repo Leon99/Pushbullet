@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Pushbullet.UI.Console.Shared
+namespace Pushbullet.UI.Console.Common
 {
 	internal static class ConsoleHelpers
 	{

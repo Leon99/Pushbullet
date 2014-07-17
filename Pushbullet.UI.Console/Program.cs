@@ -3,7 +3,7 @@ using System.Linq;
 using CommandLine;
 using Pushbullet.Api;
 using Pushbullet.Api.Model;
-using Pushbullet.UI.Console.Shared;
+using Pushbullet.UI.Console.Common;
 
 namespace Pushbullet.UI.Console
 {
@@ -47,7 +47,7 @@ namespace Pushbullet.UI.Console
 			{
 				PushbulletDevices devices = client.GetDevices();
 				string targetDeviceId = (
-					devices.MyDevices.SingleOrDefault(device => String.Compare(PushbulletClient.GetDeviceName(device.Extras), parsedArgs.Device, StringComparison.OrdinalIgnoreCase) == 0)
+					devices.Devices.SingleOrDefault(device => String.Compare(device.Name, parsedArgs.Device, StringComparison.OrdinalIgnoreCase) == 0)
 					??
 					new PushbulletDevice()
 					).Id;
@@ -58,7 +58,7 @@ namespace Pushbullet.UI.Console
 				}
 
 				// validate or autodetect push type
-				PushbulletMessageType pushType;
+				PushbulletPushType pushType;
 				if (String.IsNullOrEmpty(parsedArgs.Type))
 				{
 					pushType = PushbulletClient.DetectType(parsedArgs.Body);
@@ -73,7 +73,7 @@ namespace Pushbullet.UI.Console
 				dynamic response = null;
 				try
 				{
-				    System.Console.Write("Pushing {0} {1}... ", pushType != PushbulletMessageType.Address ? "a" : "an", pushType.ToString().ToLowerInvariant());
+				    System.Console.Write("Pushing {0} {1}... ", pushType != PushbulletPushType.Address ? "a" : "an", pushType.ToString().ToLowerInvariant());
 				    response = client.Push(targetDeviceId, pushType, parsedArgs.Title, parsedArgs.Body);
 				    System.Console.WriteLine("SUCCESS");
 				}

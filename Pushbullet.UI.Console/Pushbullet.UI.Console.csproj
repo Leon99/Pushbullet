@@ -132,15 +132,16 @@
       <Link>Properties\AssemblyInfo.Solution.cs</Link>
     </Compile>
     <Compile Include="CLArguments.cs" />
+    <Compile Include="Common\DataProtectionExtensions.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Shared\ConsoleHelpers.cs" />
+    <Compile Include="Common\ConsoleHelpers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\SecureStorage.cs" />
+    <Compile Include="Common\SecureStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

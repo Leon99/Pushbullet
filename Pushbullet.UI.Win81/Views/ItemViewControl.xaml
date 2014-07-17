@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Pushbullet.UI.Win81.Views.ItemViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Pushbullet.UI.Win81.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="using:Pushbullet.UI.Win81.ViewModel"
+             MinWidth="200"
+             MaxHeight="70"
+             Margin="0,0,5,0"
+             d:DesignHeight="70"
+             d:DesignWidth="200"
+             mc:Ignorable="d">
+	<d:UserControl.DataContext>
+		<viewModel:ItemViewModel Caption="Caption"
+		                         Content="Content"
+		                         CreatedOn="Jul 15"
+		                         PushType="Note" />
+	</d:UserControl.DataContext>
+	<UserControl.Resources>
+		<Style TargetType="HyperlinkButton">
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+		</Style>
+		<DataTemplate x:Key="NoteDataTemplate">
+			<TextBlock Style="{StaticResource BodyTextBlockStyle}"
+			           Text="{Binding Content}"
+			           TextWrapping="NoWrap" />
+		</DataTemplate>
+		<DataTemplate x:Key="LinkDataTemplate">
+			<TextBlock Foreground="{StaticResource HyperlinkForegroundThemeBrush}"
+			           Style="{StaticResource BodyTextBlockStyle}"
+			           Text="{Binding Content.AbsoluteUri}"
+			           TextWrapping="NoWrap" />
+		</DataTemplate>
+		<DataTemplate x:Key="ListDataTemplate">
+			<TextBlock FontStyle="Italic"
+			           Style="{StaticResource BodyTextBlockStyle}"
+			           Text="Press to see the list" />
+		</DataTemplate>
+		<DataTemplate x:Key="FileDataTemplate">
+			<TextBlock FontStyle="Italic"
+			           Foreground="{StaticResource HyperlinkForegroundThemeBrush}"
+			           Text="Press to download the file"
+			           TextWrapping="NoWrap" />
+		</DataTemplate>
+		<local:PushTypeTemplateSelector x:Key="PushTypeSelector"
+		                                FileTemplate="{StaticResource FileDataTemplate}"
+		                                LinkTemplate="{StaticResource LinkDataTemplate}"
+		                                ListTemplate="{StaticResource ListDataTemplate}"
+		                                NoteTemplate="{StaticResource NoteDataTemplate}" />
+	</UserControl.Resources>
+	<Grid Margin="0,5">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="60" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<Border Width="55"
+		        Height="{Binding RelativeSource={RelativeSource Mode=Self},
+		                         Path=Width}"
+		        Margin="5,0,0,0"
+		        VerticalAlignment="Top"
+		        Background="{Binding IconBackground}"
+		        Style="{StaticResource IconBorder}">
+			<Path Data="{Binding IconData}" Style="{StaticResource Icon}" />
+		</Border>
+		<StackPanel Grid.Column="1"
+		            Margin="10,0,0,5"
+		            VerticalAlignment="Top">
+			<TextBlock Margin="0,0,0,10"
+			           Style="{StaticResource TitleTextBlockStyle}"
+			           Text="{Binding Caption}"
+			           TextWrapping="NoWrap" />
+			<ContentPresenter Name="ContentPresenter" HorizontalAlignment="Stretch" />
+		</StackPanel>
+		<TextBlock Grid.Column="2"
+		           Foreground="DarkSlateGray"
+				   FontSize="12"
+				   Padding="3,6,0,0"
+		           Text="{Binding CreatedOn}" />
+	</Grid>
+</UserControl>

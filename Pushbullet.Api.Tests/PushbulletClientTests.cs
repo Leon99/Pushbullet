@@ -13,9 +13,9 @@ namespace Pushbullet.Api.Tests
 		public void GetDeviceName_OnlyNicknameSpecified_ReturnsNickname()
 		{
 			const string nickname = "My Device";
-			var extras = new PushbulletDeviceExtras {Nickname = nickname};
+			var device = new PushbulletDevice {Nickname = nickname};
 
-			var deviceName = PushbulletClient.GetDeviceName(extras);
+			var deviceName = device.Name;
 
 			Assert.AreEqual(nickname, deviceName);
 		}
@@ -24,9 +24,9 @@ namespace Pushbullet.Api.Tests
 		public void GetDeviceName_OnlyModelSpecified_ReturnsModel()
 		{
 			const string model = "My Device Model";
-			var extras = new PushbulletDeviceExtras {Model = model};
+			var device = new PushbulletDevice {Model = model};
 
-			var deviceName = PushbulletClient.GetDeviceName(extras);
+			var deviceName = device.Name;
 
 			Assert.AreEqual(model, deviceName);
 		}
@@ -36,9 +36,9 @@ namespace Pushbullet.Api.Tests
 		{
 			const string nickname = "My Device";
 			const string model = "My Device Model";
-			var extras = new PushbulletDeviceExtras { Nickname = nickname, Model = model };
+			var device = new PushbulletDevice { Nickname = nickname, Model = model };
 
-			var deviceName = PushbulletClient.GetDeviceName(extras);
+			var deviceName = device.Name;
 
 			Assert.AreEqual(nickname, deviceName);
 		}
@@ -54,7 +54,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.Link, detectedType);
+			Assert.AreEqual(PushbulletPushType.Link, detectedType);
 		}
 
 		[Test]
@@ -64,7 +64,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.Link, detectedType);
+			Assert.AreEqual(PushbulletPushType.Link, detectedType);
 		}
 
 		[Test]
@@ -74,7 +74,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.Link, detectedType);
+			Assert.AreEqual(PushbulletPushType.Link, detectedType);
 		}
 
 		[Test]
@@ -84,7 +84,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.Note, detectedType);
+			Assert.AreEqual(PushbulletPushType.Note, detectedType);
 		}
 
 		[Test]
@@ -94,7 +94,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.Note, detectedType);
+			Assert.AreEqual(PushbulletPushType.Note, detectedType);
 		}
 
 		[Test]
@@ -104,7 +104,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.File, detectedType);
+			Assert.AreEqual(PushbulletPushType.File, detectedType);
 		}
 
 		[Test]
@@ -114,7 +114,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.File, detectedType);
+			Assert.AreEqual(PushbulletPushType.File, detectedType);
 		}
 
 		[Test]
@@ -124,7 +124,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.List, detectedType);
+			Assert.AreEqual(PushbulletPushType.List, detectedType);
 		}
 
 		[Test]
@@ -134,7 +134,7 @@ namespace Pushbullet.Api.Tests
 
 			var detectedType = PushbulletClient.DetectType(body);
 
-			Assert.AreEqual(PushbulletMessageType.Note, detectedType);
+			Assert.AreEqual(PushbulletPushType.Note, detectedType);
 		}
 
 		#endregion

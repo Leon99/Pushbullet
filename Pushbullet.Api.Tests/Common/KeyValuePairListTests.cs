@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Pushbullet.Api.Shared;
+using Pushbullet.Api.Common;
 
-namespace Pushbullet.Api.Tests.Shared
+namespace Pushbullet.Api.Tests.Common
 {
 	[TestFixture]
 	public class KeyValuePairListTests

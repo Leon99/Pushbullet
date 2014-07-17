@@ -1,0 +1,68 @@
+﻿<common:PageBase x:Class="Pushbullet.UI.Win81.Views.SignInPage"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:common="using:Pushbullet.UI.Win81.Common"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
+                 xmlns:local="using:AbsenceRequests.WinUI.XamlApp"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 DataContext="{Binding SignIn,
+                                       Source={StaticResource Locator}}"
+                 mc:Ignorable="d"
+                 Loaded="LoginPage_OnLoaded">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Image Grid.Row="0"
+		       HorizontalAlignment="Center"
+		       Stretch="None"
+		       Source="Images/header-logo.png" />
+		<StackPanel Name="LoginStackPanel"
+		            Grid.Row="1"
+		            Height="Auto"
+		            MinWidth="200"
+		            MaxWidth="300"
+		            HorizontalAlignment="Center"
+		            Visibility="{Binding LoginStackPanelVisibility}">
+			<StackPanel.Resources>
+				<Style x:Key="MarginStyle" TargetType="Control">
+					<Setter Property="Margin" Value="3,10" />
+				</Style>
+				<Style BasedOn="{StaticResource MarginStyle}" TargetType="TextBox" />
+				<Style BasedOn="{StaticResource MarginStyle}" TargetType="ButtonBase" />
+			</StackPanel.Resources>
+			<TextBox Name="LoginTextBox"
+			         PlaceholderText="API token"
+			         Text="{Binding ApiToken,
+			                        Mode=TwoWay,
+			                        UpdateSourceTrigger=PropertyChanged}"
+			         extensions:FieldValidationExtensions.Format="NonEmpty"
+			         extensions:FieldValidationExtensions.InvalidBrush="{ThemeResource TextBoxBackgroundThemeBrush}"
+			         extensions:FieldValidationExtensions.IsValid="{Binding IsApiTokenValid,
+			                                                                Mode=TwoWay,
+			                                                                UpdateSourceTrigger=PropertyChanged}"
+			         extensions:TextBoxFocusExtensions.AutoSelectOnFocus="True" />
+			<Button HorizontalAlignment="Stretch"
+			        Command="{Binding SignInCommand}"
+			        Content="Sign In"
+			        common:ButtonBehavior.IsDefault="True" />
+		</StackPanel>
+		<StackPanel Name="WaitLogginStackPanel"
+		            Grid.Row="1"
+		            Width="Auto"
+		            Height="Auto"
+		            HorizontalAlignment="Center"
+		            Orientation="Horizontal"
+		            Visibility="{Binding ProgressRingStackPanelVisibility}">
+			<ProgressRing MinWidth="60"
+			              MinHeight="60"
+			              Margin="0,0,20,0"
+			              HorizontalAlignment="Center"
+			              VerticalAlignment="Center"
+			              IsActive="{Binding SigInInProgress}" />
+		</StackPanel>
+	</Grid>
+</common:PageBase>

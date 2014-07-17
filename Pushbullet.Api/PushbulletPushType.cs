@@ -1,6 +1,6 @@
 ﻿namespace Pushbullet.Api
 {
-	public enum PushbulletMessageType
+	public enum PushbulletPushType
 	{
 		Note,
 		Link,
