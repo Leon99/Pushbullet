@@ -17,7 +17,7 @@ namespace Pushbullet.Api.Model
 	}
 
 
-	public class InactivePush
+	public class InactivePush : IIdentifiableObject
 	{
 		[JsonProperty("iden")]
 		public string Id { get; set; }

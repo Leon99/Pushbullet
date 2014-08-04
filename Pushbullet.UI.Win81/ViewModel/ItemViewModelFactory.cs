@@ -12,6 +12,7 @@ namespace Pushbullet.UI.Win81.ViewModel
 		{
 			return new ItemViewModel
 			{
+				ItemId = device.Id,
 				Caption = device.Name,
 				Content = device.Manufacturer + " " + device.Model,
 				IconData = GetIconData(device.Type),
@@ -29,6 +30,7 @@ namespace Pushbullet.UI.Win81.ViewModel
 		{
 			var viewModel = new ItemViewModel
 			{
+				ItemId = push.Id,
 				IconBackground = GetIconBackground(push.Type),
 				IconData = GetIconData(push.Type),
 				PushType = push.Type,

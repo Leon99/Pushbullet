@@ -5,7 +5,7 @@
 		Windows,
 		Android,
 		Chrome,
-		Firefox
-		//TODO add iPhone app type
+		Firefox,
+		iOS,
 	}
 }

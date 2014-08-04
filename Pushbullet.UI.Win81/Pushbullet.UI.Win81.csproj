@@ -161,8 +161,8 @@
     <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\ItemViewModelFactory.cs" />
     <Compile Include="Settings\AppSettings.cs" />
-    <Compile Include="Settings\LoginSettings.cs" />
-    <Compile Include="Settings\SettingsBase.cs" />
+    <Compile Include="Settings\SignInSettings.cs" />
+    <Compile Include="Common\SettingsBase.cs" />
     <Compile Include="Views\ItemViewControl.xaml.cs">
       <DependentUpon>ItemViewControl.xaml</DependentUpon>
     </Compile>
@@ -269,6 +269,9 @@
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
+    <SDKReference Include="MSAdvertisingXaml, Version=8.1">
+      <Name>MSAdvertisingXaml</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>

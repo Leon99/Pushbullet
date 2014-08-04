@@ -7,6 +7,8 @@ namespace Pushbullet.UI.Win81.ViewModel
 {
 	public class ItemViewModel : ObservableObject
 	{
+		public string ItemId { get; set; }
+
 		public PushbulletPushType? PushType { get; set; }
 
 		public string Caption { get; set; }

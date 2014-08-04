@@ -5,7 +5,7 @@ namespace Pushbullet.UI.Win81.Settings
 	public class AppSettings
 	{
 		private const string SignInSettingsContainerName = "SignInSettings";
-		public static LoginSettings SignIn;
+		public static SignInSettings SignIn;
 
 		static AppSettings()
 		{
@@ -16,7 +16,7 @@ namespace Pushbullet.UI.Win81.Settings
 				settingsContainer = ApplicationData.Current.RoamingSettings.CreateContainer(SignInSettingsContainerName,
 					ApplicationDataCreateDisposition.Always);
 			}
-			SignIn = new LoginSettings(settingsContainer.Values);
+			SignIn = new SignInSettings(settingsContainer.Values);
 		}
 	}
 }

@@ -30,11 +30,12 @@ namespace Pushbullet.Api.Tests.Common
 		[Test]
 		public void Add_SomeItems_ItemsAdded()
 		{
-			var list = new KeyValuePairList<string, string>();
-
-			list.Add("key1", "value1");
-			list.Add("key2", "value2");
-			list.Add("key3", "value3");
+			var list = new KeyValuePairList<string, string>
+			{
+				{"key1", "value1"},
+				{"key2", "value2"},
+				{"key3", "value3"}
+			};
 
 			Assert.AreEqual(3, list.InnerList.Count);
 		}

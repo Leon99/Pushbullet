@@ -74,6 +74,7 @@
       <Link>Properties\AssemblyInfo.Solution.cs</Link>
     </Compile>
     <Compile Include="Common\DateTimeConvertors.cs" />
+    <Compile Include="Model\IIdentifiableObject.cs" />
     <Compile Include="Model\PushbulletDeviceType.cs" />
     <Compile Include="Model\PushbulletPushes.cs" />
     <Compile Include="Model\PushbulletUser.cs" />

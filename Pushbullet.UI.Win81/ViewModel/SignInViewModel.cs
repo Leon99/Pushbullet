@@ -17,7 +17,6 @@ namespace Pushbullet.UI.Win81.ViewModel
 		private readonly IDialogService _dialogService;
 		private readonly INavigationService _navigationService;
 
-		private readonly Lazy<RelayCommand> _signInCommand;
 
 		#region Model Properties
 
@@ -45,14 +44,14 @@ namespace Pushbullet.UI.Win81.ViewModel
 
 		#endregion
 
-		#region SigInInProgress
+		#region SignInInProgress
 
-		private Boolean _sigInInProgress;
+		private Boolean _signInInProgress;
 
-		public Boolean SigInInProgress
+		public Boolean SignInInProgress
 		{
-			get { return _sigInInProgress; }
-			set { Set(ref _sigInInProgress, value); }
+			get { return _signInInProgress; }
+			set { Set(ref _signInInProgress, value); }
 		}
 
 		#endregion
@@ -107,6 +106,12 @@ namespace Pushbullet.UI.Win81.ViewModel
 			}
 		}
 
+		#region Commands
+		
+		#region Sign In
+
+		private readonly Lazy<RelayCommand> _signInCommand;
+
 		public RelayCommand SignInCommand
 		{
 			get { return _signInCommand.Value; }
@@ -114,14 +119,14 @@ namespace Pushbullet.UI.Win81.ViewModel
 
 		private async void SignIn()
 		{
-			SigInInProgress = true;
+			SignInInProgress = true;
 			LoginStackPanelVisibility = Visibility.Collapsed;
 			ProgressRingStackPanelVisibility = Visibility.Visible;
 
 			PushbulletUser user = null;
 			try
 			{
-				user = await _dataService.SignIn(ApiToken);
+				user = _dataService.SignIn(ApiToken);
 				AppSettings.SignIn.ApiToken = await ApiToken.ProtectAsync();
 			}
 			catch (Exception ex)
@@ -136,10 +141,14 @@ namespace Pushbullet.UI.Win81.ViewModel
 			}
 			else
 			{
-				SigInInProgress = false;
+				SignInInProgress = false;
 				LoginStackPanelVisibility = Visibility.Visible;
 				ProgressRingStackPanelVisibility = Visibility.Collapsed;
 			}
 		}
+		
+		#endregion
+
+		#endregion
 	}
 }

@@ -62,7 +62,7 @@
 			              Margin="0,0,20,0"
 			              HorizontalAlignment="Center"
 			              VerticalAlignment="Center"
-			              IsActive="{Binding SigInInProgress}" />
+			              IsActive="{Binding SignInInProgress}" />
 		</StackPanel>
 	</Grid>
 </common:PageBase>

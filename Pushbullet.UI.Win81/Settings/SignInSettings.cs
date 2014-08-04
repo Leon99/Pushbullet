@@ -2,9 +2,9 @@ using Windows.Foundation.Collections;
 
 namespace Pushbullet.UI.Win81.Settings
 {
-	public class LoginSettings : SettingsBase
+	public class SignInSettings : SettingsBase
 	{
-		public LoginSettings(IPropertySet values) : base(values)
+		public SignInSettings(IPropertySet values) : base(values)
 		{
 		}
 

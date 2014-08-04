@@ -9,13 +9,13 @@ namespace Pushbullet.UI.Win81.Design
 {
 	public class DesignDataService : IDataService
 	{
-		public Task<PushbulletUser> SignIn(string apiToken)
+		public PushbulletUser SignIn(string apiToken)
 		{
-			return new Task<PushbulletUser>(() => new PushbulletUser
+			return new PushbulletUser
 			{
 				Name = "Signed in user",
 				Email = "users@email.com"
-			});
+			};
 		}
 
 		public ObservableCollection<ItemViewModel> GetDevices()
@@ -75,6 +75,11 @@ namespace Pushbullet.UI.Win81.Design
 					FileUrl = "DL link",
 				}),
 			};
+		}
+
+		public void SendPush(string deviceId, PushbulletPushType type, string title, string body)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

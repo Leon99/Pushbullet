@@ -14,7 +14,10 @@ namespace Pushbullet.UI.Win81.Views
 
 		void ItemViewControl_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
-			ContentPresenter.ContentTemplate = ((DataTemplateSelector) Resources["PushTypeSelector"]).SelectTemplate(DataContext);
+			if (DataContext != null)
+			{
+				ContentPresenter.ContentTemplate = ((DataTemplateSelector)Resources["PushTypeSelector"]).SelectTemplate(DataContext);
+			}
 		}
 	}
 }

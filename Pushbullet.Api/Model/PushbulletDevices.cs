@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Pushbullet.Api.Model
 {
-	public class PushbulletDevice
+	public class PushbulletDevice : IIdentifiableObject
     {
 		public string Name
 		{

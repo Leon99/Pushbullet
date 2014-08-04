@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +12,10 @@ namespace Pushbullet.UI.Win81.Model
 	public class DataService : IDataService
 	{
 		private PushbulletClient _client;
+		
+		internal Dictionary<string, PushbulletDevice> Devices { get; set; }
 
-		public Task<PushbulletUser> SignIn(string apiToken)
+		public PushbulletUser SignIn(string apiToken)
 		{
 			_client = new PushbulletClient(apiToken);
 
@@ -23,8 +26,8 @@ namespace Pushbullet.UI.Win81.Model
 		{
 			EnsureClient();
 			var devicesModel = new ObservableCollection<ItemViewModel>();
-			PushbulletDevices devices = _client.GetDevices();
-			foreach (PushbulletDevice device in devices.Devices)
+			Devices = _client.GetDevices().Devices.ToDictionary(device => device.Id, device => device);
+			foreach (PushbulletDevice device in Devices.Values)
 			{
 				devicesModel.Add(ItemViewModelFactory.FromDevice(device));
 			}
@@ -41,6 +44,12 @@ namespace Pushbullet.UI.Win81.Model
 				pushesModel.Add(ItemViewModelFactory.FromPush(push));
 			}
 			return pushesModel;
+		}
+
+		public async void SendPush(string deviceId, PushbulletPushType type, string title, string body)
+		{
+			EnsureClient();
+			_client.Push(deviceId, type, title, body);
 		}
 
 		private void EnsureClient()

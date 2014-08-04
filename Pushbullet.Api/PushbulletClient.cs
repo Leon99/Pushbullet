@@ -45,6 +45,7 @@ namespace Pushbullet.Api
 			Contract.Requires(!string.IsNullOrEmpty(apiKey));
 
 			_client = new HttpClient();
+
 			string authEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey + ":"));
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authEncoded);
 		}
@@ -92,9 +93,9 @@ namespace Pushbullet.Api
 		}
 
 
-		private HttpResponseMessage SendText(string deviceId, PushbulletPushType type, string title, string body)
+		private HttpResponseMessage SendText(string deviceId, PushbulletPushType type, string title, string content)
 		{
-			var data = new KeyValuePairList<string, string>
+			var postData = new KeyValuePairList<string, string>
 			{
 				{"device_iden", deviceId},
 				{"type", type.ToString().ToLowerInvariant()},
@@ -108,31 +109,31 @@ namespace Pushbullet.Api
 			switch (type)
 			{
 				case PushbulletPushType.Note:
-					data.Add("body", body);
+					postData.Add("body", content);
 					break;
 				case PushbulletPushType.Link:
-					data.Add("url", body);
+					postData.Add("url", content);
 					break;
 				case PushbulletPushType.Address:
-					data.Add("address", body);
+					postData.Add("address", content);
 					break;
 				case PushbulletPushType.List:
-					foreach (var item in body.Split(';'))
+					foreach (var item in content.Split(';'))
 					{
-						data.Add("items", item);
+						postData.Add("items", item);
 					}
 					break;
 			}
-			using (var content = new FormUrlEncodedContent(data))
+			using (var postContent = new FormUrlEncodedContent(postData))
 			{
-				return _client.PostAsync(PushbulletApiConstants.PushesUrl, content).Result;
+				return _client.PostAsync(PushbulletApiConstants.PushesUrl, postContent).Result;
 			}
 		}
 
 
-		public async Task<PushbulletUser> GetCurrentUser()
+		public PushbulletUser GetCurrentUser()
 		{
-			var response = await _client.GetAsync(PushbulletApiConstants.CurrentUserUrl);
+			var response = _client.GetAsync(PushbulletApiConstants.CurrentUserUrl).Result;
 			var responseString = HandleResponse(response);
 			return JsonConvert.DeserializeObject<PushbulletUser>(responseString);
 		}
